@@ -6,15 +6,18 @@ import time
 import matplotlib.pyplot as plt
 from pylab import *
 
-
+"""
 def load_stopword():
     f_stop = open('sw.txt')
     sw = [line.strip() for line in f_stop]
     f_stop.close()
     return sw
+"""
+#sw = load_stopword()
 
+with open('sw.txt') as f_stop:
+    sw = [line.strip() for line in f_stop]
 # remove the stop words
-sw = load_stopword()
 f = open('news_cn.dat', encoding='utf-8')    # load the text data
 texts = [[word for word in line.strip().lower().split() if word not in sw] for line in f]
 f.close()
