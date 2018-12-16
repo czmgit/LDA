@@ -1,26 +1,15 @@
 # -*- coding:utf-8 -*-
-
 import numpy as np
 from gensim import corpora, models, similarities
 import time
 import matplotlib.pyplot as plt
 from pylab import *
 
-"""
-def load_stopword():
-    f_stop = open('sw.txt')
-    sw = [line.strip() for line in f_stop]
-    f_stop.close()
-    return sw
-"""
-#sw = load_stopword()
-
 with open('sw.txt') as f_stop:
     sw = [line.strip() for line in f_stop]
-# remove the stop words
-f = open('news_cn.dat', encoding='utf-8')    # load the text data
-texts = [[word for word in line.strip().lower().split() if word not in sw] for line in f]
-f.close()
+# remove the stop words,数据清洗与预处理
+with open('news_cn.dat',encoding='utf-8') as file:
+    texts = [[word for word in line.strip().lower().split() if word not in sw] for line in file]
 M = len(texts)
 print('语料库载入完成，据统计，一共有 %d 篇文档' % M)
 
@@ -30,7 +19,7 @@ dict_len = len(dictionary)
 # transform the whole texts to sparse vector
 corpus = [dictionary.doc2bow(text) for text in texts]
 # create a transformation, from initial model to tf-idf model
-corpus_tfidf = models.TfidfModel(corpus)
+corpus_tfidf = models.TfidfModel(corpus)[corpus]
 print('现在开始训练LDA模型：--')
 num_topics = 9
 t_start = time.time()
